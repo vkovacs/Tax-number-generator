@@ -1,16 +1,15 @@
 # https://hu.wikipedia.org/wiki/Ad%C3%B3azonos%C3%ADt%C3%B3_jel
 from datetime import date
+input_customer_birth_date = date(1982, 10, 3)
+input_customer_serial_number = str(13)
+
 
 reference_date = date(1867, 1, 1)
-
-customer_birth_date = date(1867, 2, 1)
-
-customer_elapsed_days = str((customer_birth_date - reference_date).days)
-customer_serial_number = str(0)
+customer_elapsed_days = str((input_customer_birth_date - reference_date).days)
 
 part1 = str(8)
 part2 = customer_elapsed_days.zfill(5)
-part3 = customer_serial_number.zfill(3)
+part3 = input_customer_serial_number.zfill(3)
 
 tax_number_without_checksum = part1 + part2 + part3
 
