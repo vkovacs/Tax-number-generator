@@ -3,9 +3,30 @@ from datetime import date
 
 reference_date = date(1867, 1, 1)
 
-birth_date = date(1867, 2, 1)
+customer_birth_date = date(1867, 2, 1)
 
-elapsed_days = birth_date - reference_date
+customer_elapsed_days = str((customer_birth_date - reference_date).days)
+customer_serial_number = str(0)
 
-print(elapsed_days)
+part1 = str(8)
+part2 = customer_elapsed_days.zfill(5)
+part3 = customer_serial_number.zfill(3)
 
+tax_number_without_checksum = part1 + part2 + part3
+
+print(f"Adóazonosító az ellenőrző utolsó számjegy nélkül: {tax_number_without_checksum}")
+
+position = 1
+checksum = 0
+for i in tax_number_without_checksum:
+    checksum = checksum + int(i) * position
+    position = position + 1
+
+checksum = checksum % 11
+
+if checksum == 10:
+    print("Invalid customer_serial_number, checksum mod 11 cannot be 10!")
+    raise SystemExit
+
+tax_number = tax_number_without_checksum + str(checksum)
+print(f"Adóazonosító : {tax_number}")
