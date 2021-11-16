@@ -4,6 +4,7 @@ from datetime import date
 customer_birth_date = date(1982, 10, 3)
 customer_serial_number = str(13)
 
+
 def generate_tax_number(birth_date, serial_number):
     reference_date = date(1867, 1, 1)
     customer_elapsed_days = str((birth_date - reference_date).days)
@@ -13,8 +14,6 @@ def generate_tax_number(birth_date, serial_number):
     part3 = serial_number.zfill(3)
 
     tax_number_without_checksum = part1 + part2 + part3
-
-    # print(f"Adóazonosító az ellenőrző utolsó számjegy nélkül: {tax_number_without_checksum}")
 
     position = 1
     checksum = 0
@@ -33,4 +32,26 @@ def generate_tax_number(birth_date, serial_number):
     return tax_number
 
 
-print(f"Adóazonosító : {generate_tax_number(customer_birth_date, customer_serial_number)}")
+def validate_tax_number(tax_number):
+    original_tax_number_without_checksum = str(tax_number)[:9]
+    original_checksum = str(tax_number)[9:]
+
+    position = 1
+    checksum = 0
+    for i in original_tax_number_without_checksum:
+        checksum = checksum + int(i) * position
+        position = position + 1
+
+    checksum = checksum % 11
+
+    return original_checksum == str(checksum)
+
+
+tax_number_to_validate = 8422780135
+
+if validate_tax_number(tax_number_to_validate):
+    print("A megadott adószám valid")
+else:
+    print("A megadott adószám NEM valid")
+
+#print(f"Adóazonosító : {generate_tax_number(customer_birth_date, customer_serial_number)}")
